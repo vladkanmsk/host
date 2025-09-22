@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ArcadeHub — игры и развлечения</title>
+  <style>
+    :root{
+      --bg:#0b0f1a;
+      --accent:#7c3aed; /* purple */
+      --accent-2:#ff5ca1; /* pink */
+      --muted:#9aa3c7;
+      --card:#0f1724;
+      --glass: rgba(255,255,255,0.04);
+      --radius:14px;
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    /* reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      background: linear-gradient(180deg, #05060a 0%, rgba(11,15,26,1) 60%);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.4;
+    }
+
+    .container{max-width:1200px;margin:0 auto;padding:28px;}
+
+    /* header */
+    header{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+    .logo{display:flex;align-items:center;gap:12px}
+    .logo .badge{
+      width:44px;height:44px;border-radius:10px;
+      background: linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:flex;align-items:center;justify-content:center;font-weight:700;
+      box-shadow: 0 6px 30px rgba(124,58,237,0.18);
+      font-family:monospace;
+    }
+    .logo h1{font-size:18px;letter-spacing:0.2px}
+    nav{display:flex;gap:16px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:14px}
+    .btn-ghost{padding:8px 14px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));padding:10px 16px;border-radius:12px;color:white;font-weight:700;border:none;cursor:pointer;box-shadow:0 8px 30px rgba(124,58,237,0.18)}
+
+    /* hero */
+    .hero{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:26px;
+      align-items:center;
+    }
+    .hero-left{padding:28px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:var(--radius);backdrop-filter: blur(6px);}
+    .kicker{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,rgba(124,58,237,0.12), rgba(255,92,161,0.08));color:var(--accent);font-weight:700;margin-bottom:12px;font-size:13px}
+    .hero-left h2{font-size:36px;margin-bottom:12px;line-height:1.02}
+    .hero-left p{color:var(--muted);margin-bottom:18px}
+    .actions{display:flex;gap:12px}
+    .stats{display:flex;gap:18px;margin-top:18px}
+    .stat{background:var(--glass);padding:10px 14px;border-radius:12px;font-weight:700;color:#dbe9ff}
+
+    /* hero-right card with bg image */
+    .hero-right{
+      height:340px;border-radius:18px;overflow:hidden;position:relative;
+      box-shadow: 0 18px 60px rgba(2,6,23,0.7);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .hero-right .bg{
+      position:absolute;inset:0;background-size:cover;background-position:center;filter:contrast(1.05) saturate(1.15);
+      transform:scale(1.02);
+    }
+    .hero-right .overlay{
+      position:absolute;inset:0;background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.6) 100%); display:flex;flex-direction:column;justify-content:flex-end;padding:18px;
+    }
+    .play-btn{
+      display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);padding:10px 14px;border-radius:999px;font-weight:700;border:1px solid rgba(255,255,255,0.04);
+    }
+
+    /* features / games grid */
+    .section{margin-top:28px}
+    .section h3{margin-bottom:12px}
+    .games-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{
+      background:var(--card);border-radius:14px;padding:0;overflow:hidden;border:1px solid rgba(255,255,255,0.03);
+      transition:transform .25s ease, box-shadow .25s ease;
+    }
+    .card:hover{transform:translateY(-8px);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
+    .card .thumb{height:180px;background-size:cover;background-position:center}
+    .card .info{padding:14px}
+    .tag{display:inline-block;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.03);font-size:12px;color:var(--muted);margin-bottom:8px}
+    .card h4{margin-bottom:8px}
+    .card p{font-size:13px;color:var(--muted)}
+
+    /* small showcase */
+    .showcase{
+      margin-top:28px;padding:18px;border-radius:14px;background:linear-gradient(90deg, rgba(124,58,237,0.06), rgba(255,92,161,0.03));
+      display:flex;align-items:center;gap:16px;justify-content:space-between;
+    }
+
+    footer{margin-top:36px;padding:24px 0;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+    .socials{display:flex;gap:10px}
+
+    /* responsiveness */
+    @media (max-width:1000px){
+      .hero{grid-template-columns:1fr;grid-auto-rows:auto}
+      .games-grid{grid-template-columns:repeat(2,1fr)}
+      .hero-right{height:300px}
+    }
+    @media (max-width:620px){
+      .games-grid{grid-template-columns:1fr}
+      header{flex-direction:column;gap:12px;align-items:flex-start}
+      nav{flex-wrap:wrap}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="badge">AH</div>
+        <div>
+          <h1>ArcadeHub</h1>
+          <div style="font-size:12px;color:var(--muted)">Игры. Турниры. Комьюнити.</div>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#games">Игры</a>
+        <a href="#tournaments">Турниры</a>
+        <a href="#about">О нас</a>
+        <button class="btn-ghost">Вход</button>
+        <button class="btn-primary">Играть сейчас</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-left">
+          <span class="kicker">НОВИНКА</span>
+          <h2>Играй бесплатно в классные игры<br><span style="color:var(--accent)">онлайн</span> и с друзьями</h2>
+          <p>Сборник аркад, гонок и паркура. Турниры каждую неделю, таблицы лидеров и быстрый вход — просто нажми «Играть» и погружайся.</p>
+
+          <div class="actions">
+            <button class="btn-primary">Играть сейчас</button>
+            <button class="btn-ghost">Обзор игр</button>
+          </div>
+
+          <div class="stats" aria-hidden="true">
+            <div class="stat">120+ игр</div>
+            <div class="stat">Турниры: еженедельно</div>
+            <div class="stat">Призы: $2000+</div>
+          </div>
+        </div>
+
+        <div class="hero-right" aria-hidden="true">
+          <!-- фон берётся из интернета с помощью unsplash (ключи: arcade, neon) -->
+          <div class="bg" style="background-image:url('https://source.unsplash.com/collection/1111575/1200x900?arcade,neon');"></div>
+          <div class="overlay">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <div style="font-size:13px;color:var(--muted)">Рекорд дня</div>
+                <div style="font-weight:800;font-size:18px">Player_X — 1 342 900</div>
+              </div>
+              <div class="play-btn">▶ Быстрый запуск</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GAMES GRID -->
+      <section id="games" class="section">
+        <h3>Популярные игры</h3>
+        <div class="games-grid">
+          <article class="card">
+            <div class="thumb" style="background-image:url('https://source.unsplash.com/800x600/?game-controller,console');"></div>
+            <div class="info">
+              <span class="tag">Аркада</span>
+              <h4>Neon Runner</h4>
+              <p>Скоростная аркада в неоновом стиле — реакция и точность решают всё.</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="thumb" style="background-image:url('https://source.unsplash.com/800x600/?race,game');"></div>
+            <div class="info">
+              <span class="tag">Гонки</span>
+              <h4>Turbo Drift</h4>
+              <p>Онлайн-гонки с кастомизацией машин и мультиплеерными лобби.</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="thumb" style="background-image:url('https://source.unsplash.com/800x600/?platformer,game');"></div>
+            <div class="info">
+              <span class="tag">Паркур</span>
+              <h4>SkyJump 3D</h4>
+              <p>Паркур-платформер с уровнем сложности на выбор и режимом на двоих.</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="thumb" style="background-image:url('https://source.unsplash.com/800x600/?arcade,cabinet');"></div>
+            <div class="info">
+              <span class="tag">Классика</span>
+              <h4>Retro Blast</h4>
+              <p>Ретро-шутер с пиксельной графикой и таблицей рекордов.</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="thumb" style="background-image:url('https://source.unsplash.com/800x600/?multiplayer,game');"></div>
+            <div class="info">
+              <span class="tag">Мультиплеер</span>
+              <h4>Team Arena</h4>
+              <p>Короткие матчи 3 на 3 — идеальны для быстрых турниров.</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="thumb" style="background-image:url('https://source.unsplash.com/800x600/?puzzle,game');"></div>
+            <div class="info">
+              <span class="tag">Головоломка</span>
+              <h4>Puzzle Portal</h4>
+              <p>Мозговой штурм: сотни уровней и ежедневные челленджи.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- SHOWCASE -->
+      <section class="showcase">
+        <div>
+          <strong>Турнир недели:</strong>
+          <div style="font-weight:800">Neon Cup — 5 000 участников</div>
+          <div style="color:var(--muted);margin-top:6px">Призовой фонд: $500 — регистрируй команду!</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <button class="btn-primary">Регистрация</button>
+          <button class="btn-ghost">Правила</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>© <strong>ArcadeHub</strong> — все права защищены</div>
+      <div class="socials">
+        <a href="#" style="color:var(--muted);text-decoration:none">Discord</a>
+        <a href="#" style="color:var(--muted);text-decoration:none">Telegram</a>
+        <a href="#" style="color:var(--muted);text-decoration:none">VK</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
